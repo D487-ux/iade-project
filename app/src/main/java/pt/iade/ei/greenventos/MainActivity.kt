@@ -68,6 +68,7 @@ fun MainView() {
                     title = "Tech Club",
                     date = Calendar.getInstance(),
                     room = "TechLab",
+                    duratioMinutes = 4 * 60,
                     rsvp = 8,
                     posterId = R.drawable.green_campus
                 )
