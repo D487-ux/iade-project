@@ -56,7 +56,7 @@ fun EventListItem(
                 )
                 Text(
                     text = "${date.get(Calendar.DAY_OF_MONTH)}/${date.get(Calendar.MONTH)}/${date.get(
-                        Calendar.HOUR_OF_DAY)}/${date.get(Calendar.MINUTE)}" + " - $room",
+                        Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}" + " - $room",
                     color = Color.DarkGray,
                     fontSize = 15.sp
                 )
