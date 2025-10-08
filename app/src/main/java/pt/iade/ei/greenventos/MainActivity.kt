@@ -1,6 +1,5 @@
 package pt.iade.ei.greenventos
 
-import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,8 +18,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import pt.iade.ei.greenventos.models.EventItem
+import pt.iade.ei.greenventos.models.hoursToMinutes
 import pt.iade.ei.greenventos.ui.components.EventListItem
 import pt.iade.ei.greenventos.ui.theme.GreenventosTheme
+import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,13 +36,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-@Preview(showBackground = true)
-@Composable
-fun HomePreview() {
-    GreenventosTheme {
-        MainView()
-        }
-    }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainView() {
@@ -52,27 +49,44 @@ fun MainView() {
                 ),
                 title = {
                     Text("Greenventos")
-                },
-
+                }
             )
         }
-
     ) { innerPadding ->
+        val item = EventItem(
+            id = 123,
+            title = "Tech Club",
+            date = Calendar.getInstance(),
+            room = "Tech Lab",
+            durationMinutes = hoursToMinutes(4),
+            rsvp = 8
+        )
+
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(innerPadding)
         ) {
+            EventListItem(item)
+            item.title = "outro evento"
+            EventListItem(item)
+
             for (i in 1..5) {
                 EventListItem(
-                    title = "Tech Club",
+                    title = "Tech Club $i",
                     date = Calendar.getInstance(),
-                    room = "TechLab",
-                    duratioMinutes = 4 * 60,
-                    rsvp = 8,
+                    room = "Tech Lab",
+                    rsvp = 8 + i,
                     posterId = R.drawable.green_campus
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomePreview() {
+    GreenventosTheme {
+        MainView()
     }
 }

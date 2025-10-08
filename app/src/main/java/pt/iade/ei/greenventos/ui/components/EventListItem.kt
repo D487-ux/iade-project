@@ -1,13 +1,10 @@
 package pt.iade.ei.greenventos.ui.components
 
-import android.icu.text.CaseMap
-import android.icu.util.Calendar
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,13 +14,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.greenventos.R
+import pt.iade.ei.greenventos.models.EventItem
+import java.util.Calendar
+
 
 @Composable
 fun EventListItem(
@@ -33,57 +33,75 @@ fun EventListItem(
     rsvp: Int,
     @DrawableRes posterId: Int
 ) {
-    Row (
+    Row(
         horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(all = 5.dp)
-    ){
-
-        Row ( verticalAlignment = Alignment.CenterVertically){
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Image(
                 painter = painterResource(posterId),
                 contentDescription = title,
                 modifier = Modifier
-                    .height(50.dp)
+                    .height(70.dp)
                     .padding(end = 10.dp)
             )
+
             Column {
                 Text(
                     text = title,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
+
                 Text(
-                    text = "${date.get(Calendar.DAY_OF_MONTH)}/${date.get(Calendar.MONTH)}/${date.get(
-                        Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}" + " - $room",
+                    text = "${date.get(Calendar.DAY_OF_MONTH)}/${date.get(Calendar.MONTH)} - " +
+                            "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)} " +
+                            " - $room",
                     color = Color.DarkGray,
                     fontSize = 15.sp
                 )
             }
         }
-        Column (
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier =Modifier.padding(start = 15.dp)
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = rsvp.toString(),
-            fontSize = 15.sp
+            Text(
+                text = rsvp.toString(),
+                fontSize = 15.sp
             )
-            Text(text = "RSVP Test",
-            fontSize = 12.sp
-                )
+            Text(
+                text = "RSVP",
+                fontSize = 12.sp
+            )
         }
     }
 }
 
 @Composable
+fun EventListItem(item: EventItem) {
+    EventListItem(
+        title = item.title,
+        date = item.date,
+        room = item.room,
+        rsvp = item.rsvp,
+        posterId = R.drawable.ic_launcher_background
+    )
+}
+
+@Composable
 @Preview(showBackground = true)
-    fun EventListItemPreview(){
-        EventListItem(
-            title = "Tech club",
-            date = Calendar.getInstance(),
-            room = "TechLab",
-            rsvp = 8,
-            posterId = R.drawable.green_campus
-        )
+fun EventListItemPreview() {
+    EventListItem(
+        title = "Tech Club",
+        date = Calendar.getInstance(),
+        room = "Tech Lab",
+        rsvp = 8,
+        posterId = R.drawable.green_campus
+    )
 }

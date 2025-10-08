@@ -3,13 +3,15 @@ package pt.iade.ei.greenventos.models
 import java.util.Calendar
 
 data class EventItem(
-    val id: Int,
-    val title:String,
-    val date: Calendar,
-    val room: String,
-    val duration:Int
+    var id: Int,
+    var title: String,
+    var date: Calendar,
+    var room: String,
+    var durationMinutes: Int,
+    var rsvp: Int,
+    var description: String = ""
 )
 
-fun hoursToMinutes(hours : Int) : Int{
+fun hoursToMinutes(hours: Int): Int {
     return hours * 60
 }
